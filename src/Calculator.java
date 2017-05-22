@@ -334,6 +334,15 @@ public class Calculator extends Frame implements Observer{
 		//计算后缀表达式
 		result = getResult(pExp);
 		
+		if(result != null)
+		{
+			//通过正则表达式去掉小数点后面多余的0
+			if(result.indexOf(".") > 0 && result.indexOf("E") == -1){
+		        result = result.replaceAll("0+?$", "");//去掉多余的0
+		        result = result.replaceAll("[.]$", "");//如最后一位是.则去掉
+		    }
+		}
+		
 		//返回运算结果
 		return result;
 	}
