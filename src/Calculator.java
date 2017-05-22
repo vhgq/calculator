@@ -25,7 +25,7 @@ public class Calculator extends Frame implements Observer{
 	private String space = new String(" ");//表达式数值与运算符之间的分隔符
 	private String editNum = new String();//当前键入的数值
 	private String editNumCache = new String("0");//键入值缓存区，当无键入值时，该值等价于键入值
-	private String calResult = new String(); //计算结果显示， 只显示一次(如果计算出错，也用该值来反馈错误
+	private String calResult = new String(); //计算结果显示， 只显示一次(该值用来反馈错误
 	private String exp = new String();//表达式，当键入“=”时，计算该表达式
 	private String expCache = new String(); //表达式缓存，缓存上一次计算的表达式（ 除去第一个数值）
 	private String op = new String(); //运算符
@@ -81,12 +81,11 @@ public class Calculator extends Frame implements Observer{
 	//set the result to the screen interface
 	private void setResult(){
 		
-		//显示计算结果
-		if (!calResult.isEmpty()) {
+		
+		if (!calResult.isEmpty()) {  //如果有错误信息，输入框显示错误信息
 			screen.setEditValue(calResult);
 			calResult = "";
 		}
-		//Screen的EditValue显示数值
 	    else if(editNum.isEmpty()){//如果有键入值，显示键入值。  否则显示键入缓存区的值
 			
 			screen.setEditValue( editNumCache );
@@ -589,26 +588,28 @@ public class Calculator extends Frame implements Observer{
 			{
 				if(editNum.startsWith("-"))  
 				{
-					editNum = editNum.substring(1);
+					editNumCache = editNum.substring(1);
 				}
 				else
-					editNum = "-" + editNum;
+					editNumCache = "-" + editNum;
 			}
 			else if(value.equals("√"))
 			{
 				Double data = Math.sqrt(Double.parseDouble(editNum));
-				editNum = data.toString();
+				editNumCache = data.toString();
 			}
 			else if (value.equals("%")) 
 			{
 				Double data = Double.parseDouble(editNum) * 0.01;
-				editNum = data.toString();
+				editNumCache = data.toString();
 			}
 			else if (value.equals("1/x")) 
 			{
 				Double data = 1 / Double.parseDouble(editNum) ;
-				editNum = data.toString();
+				editNumCache = data.toString();
 			}
+			
+			editNum = "";
 		}
 	}
 	
